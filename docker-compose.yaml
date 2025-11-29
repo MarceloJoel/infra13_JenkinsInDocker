@@ -21,6 +21,8 @@ services:
     container_name: dind
     image: docker:27-dind
     privileged: true
+    environment:
+      - DOCKER_TLS_CERTDIR=
     ports:
       - "2375:2375"
 
