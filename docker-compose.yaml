@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+  jenkins:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: jenkins
+    environment:
+      - CASC_JENKINS_CONFIG=/var/jenkins_home/casc_configs/jenkins.yaml
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - ./jcasc:/var/jenkins_home/casc_configs:ro
+    depends_on:
+      - dind
+
+  dind:
+    container_name: dind
+    image: docker:27-dind
+    privileged: true
+    ports:
+      - "2375:2375"
+
+volumes:
+  jenkins_home:
